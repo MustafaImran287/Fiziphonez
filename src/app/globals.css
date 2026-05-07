@@ -54,7 +54,17 @@ body {
   }
 
   .glass-panel {
-    @apply border border-white/[0.08] bg-white/[0.03] backdrop-blur-md;
+    @apply border border-white/[0.08] bg-white/[0.03] backdrop-blur-md max-md:!backdrop-blur-none max-md:bg-white/[0.055];
+  }
+}
+
+/* Backdrop blur is costly on mobile Safari — strip for standard Tailwind blur utilities */
+@media (max-width: 767px) {
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 

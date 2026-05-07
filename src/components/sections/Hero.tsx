@@ -150,7 +150,7 @@ export function Hero() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[105] bg-black/55 backdrop-blur-[2px]"
+                className="fixed inset-0 z-[105] bg-black/55 backdrop-blur-[2px] max-md:backdrop-blur-none"
                 onClick={closeMenu}
               />
               <motion.nav

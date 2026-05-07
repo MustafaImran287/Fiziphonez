@@ -26,7 +26,7 @@ export function FloatingParticles() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-[1] overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-[1] hidden overflow-hidden md:block"
       aria-hidden
     >
       {particles.map((p) => (

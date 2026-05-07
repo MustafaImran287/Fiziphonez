@@ -1,15 +1,41 @@
+import dynamic from "next/dynamic";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { MouseGlow } from "@/components/MouseGlow";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { Hero } from "@/components/sections/Hero";
-import { Stats } from "@/components/sections/Stats";
-import { Services } from "@/components/sections/Services";
-import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
-import { Process } from "@/components/sections/Process";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { Showcase } from "@/components/sections/Showcase";
-import { CallToAction } from "@/components/sections/CallToAction";
-import { SiteFooter } from "@/components/sections/SiteFooter";
+
+const Stats = dynamic(() =>
+  import("@/components/sections/Stats").then((m) => ({ default: m.Stats })),
+);
+const Services = dynamic(() =>
+  import("@/components/sections/Services").then((m) => ({ default: m.Services })),
+);
+const WhyChooseUs = dynamic(() =>
+  import("@/components/sections/WhyChooseUs").then((m) => ({
+    default: m.WhyChooseUs,
+  })),
+);
+const Process = dynamic(() =>
+  import("@/components/sections/Process").then((m) => ({ default: m.Process })),
+);
+const Testimonials = dynamic(() =>
+  import("@/components/sections/Testimonials").then((m) => ({
+    default: m.Testimonials,
+  })),
+);
+const Showcase = dynamic(() =>
+  import("@/components/sections/Showcase").then((m) => ({ default: m.Showcase })),
+);
+const CallToAction = dynamic(() =>
+  import("@/components/sections/CallToAction").then((m) => ({
+    default: m.CallToAction,
+  })),
+);
+const SiteFooter = dynamic(() =>
+  import("@/components/sections/SiteFooter").then((m) => ({
+    default: m.SiteFooter,
+  })),
+);
 
 export default function Home() {
   return (

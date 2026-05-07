@@ -47,11 +47,21 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-function ReviewCard({ r }: { r: (typeof reviews)[number] }) {
+function ReviewCard({
+  r,
+  variant = "marquee",
+}: {
+  r: (typeof reviews)[number];
+  variant?: "marquee" | "grid";
+}) {
+  const width =
+    variant === "grid"
+      ? "w-full max-w-lg shrink-0"
+      : "w-[min(100vw-3rem,380px)] shrink-0";
   return (
     <article
       role="listitem"
-      className="w-[min(100vw-3rem,380px)] shrink-0 rounded-3xl border border-white/[0.08] bg-white/[0.035] p-7 text-left shadow-[0_16px_48px_-36px_rgba(56,189,248,0.28)] backdrop-blur-md transform-gpu"
+      className={`${width} rounded-3xl border border-white/[0.08] bg-white/[0.035] p-7 text-left shadow-[0_16px_48px_-36px_rgba(56,189,248,0.28)] backdrop-blur-md transform-gpu`}
     >
       <Stars count={r.rating} />
       <p className="mt-5 text-base leading-relaxed text-zinc-200">
@@ -106,21 +116,32 @@ export function Testimonials() {
               aria-label="Customer testimonials"
             >
               {reviews.map((r) => (
-                <ReviewCard key={r.name} r={r} />
+                <ReviewCard key={r.name} r={r} variant="grid" />
               ))}
             </div>
           ) : (
-            <div className="overflow-hidden">
+            <>
               <div
-                className="testimonial-marquee-track transform-gpu will-change-transform"
+                className="mx-auto grid max-w-7xl gap-6 md:hidden"
                 role="list"
                 aria-label="Customer testimonials"
               >
-                {loop.map((r, i) => (
-                  <ReviewCard key={`${r.name}-${i}`} r={r} />
+                {reviews.map((r) => (
+                  <ReviewCard key={r.name} r={r} variant="grid" />
                 ))}
               </div>
-            </div>
+              <div className="hidden overflow-hidden md:block">
+                <div
+                  className="testimonial-marquee-track transform-gpu will-change-transform"
+                  role="list"
+                  aria-label="Customer testimonials"
+                >
+                  {loop.map((r, i) => (
+                    <ReviewCard key={`${r.name}-${i}`} r={r} variant="marquee" />
+                  ))}
+                </div>
+              </div>
+            </>
           )}
         </div>
       </section>
