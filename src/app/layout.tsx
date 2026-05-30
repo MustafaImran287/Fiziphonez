@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
 import "./globals.css";
+import { isPaymentLocked } from "@/lib/payment-lock";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -14,31 +15,42 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://fiziphonez.co.uk"),
-  title: {
-    default: "Fizi Phonez | Premium Phone Repairs & Sales | Long Eaton",
-    template: "%s | Fizi Phonez",
-  },
-  description:
-    "Fast, trusted iPhone and Samsung repairs, refurbished phones, and accessories in Long Eaton. Same-day repairs, 200+ five-star reviews, warranty-backed service.",
-  keywords: [
-    "phone repair Long Eaton",
-    "iPhone repair Nottingham",
-    "Samsung repair",
-    "screen replacement",
-    "Fizi Phonez",
-    "refurbished phones",
-  ],
-  openGraph: {
-    title: "Fizi Phonez — Premium Phone Repairs in Long Eaton",
+export async function generateMetadata(): Promise<Metadata> {
+  if (isPaymentLocked) {
+    return {
+      metadataBase: new URL("https://fiziphonez.co.uk"),
+      title: "Website access restricted",
+      description: "This website is temporarily unavailable.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return {
+    metadataBase: new URL("https://fiziphonez.co.uk"),
+    title: {
+      default: "Fizi Phonez | Premium Phone Repairs & Sales | Long Eaton",
+      template: "%s | Fizi Phonez",
+    },
     description:
-      "Same-day repairs, certified technicians, and refurbished devices. Book your repair today.",
-    locale: "en_GB",
-    type: "website",
-  },
-  robots: { index: true, follow: true },
-};
+      "Fast, trusted iPhone and Samsung repairs, refurbished phones, and accessories in Long Eaton. Same-day repairs, 200+ five-star reviews, warranty-backed service.",
+    keywords: [
+      "phone repair Long Eaton",
+      "iPhone repair Nottingham",
+      "Samsung repair",
+      "screen replacement",
+      "Fizi Phonez",
+      "refurbished phones",
+    ],
+    openGraph: {
+      title: "Fizi Phonez — Premium Phone Repairs in Long Eaton",
+      description:
+        "Same-day repairs, certified technicians, and refurbished devices. Book your repair today.",
+      locale: "en_GB",
+      type: "website",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#07090f",
@@ -90,15 +102,19 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${dmSans.variable} min-h-screen bg-surface font-sans`}
       >
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
-          }}
-        />
+        {!isPaymentLocked ? (
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
+        ) : null}
+        {!isPaymentLocked ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(localBusinessJsonLd),
+            }}
+          />
+        ) : null}
         {children}
       </body>
     </html>
